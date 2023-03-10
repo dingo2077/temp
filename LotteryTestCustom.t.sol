@@ -43,7 +43,7 @@ contract LotteryTestCustom is LotteryTestBase {
     uint120[] memory ticketsDigits = new uint120[](1);
     ticketsDigits[0] = uint120(0x0F); //1,2,3,4 numbers choosed;
 
-    ///@dev Origin user buying ticket.
+    ///@dev Origin user is buying ticket.
     lot.buyTickets(drawId, ticketsDigits, address(0), address(0));
     vm.stopPrank();
 
