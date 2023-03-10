@@ -79,35 +79,4 @@ contract LotteryTestCustom is LotteryTestBase {
 
     console.log("attacker balance after all:                          ", rewardToken.balanceOf(attacker));
   }
-
-  function reconstructTicket(
-    uint256 randomNumber,
-    uint8 selectionSize,
-    uint8 selectionMax
-  ) internal pure returns (uint120 ticket) {
-    /// Ticket must contain unique numbers, so we are using smaller selection count in each iteration
-    /// It basically means that, once `x` numbers are selected our choice is smaller for `x` numbers
-    uint8[] memory numbers = new uint8[](selectionSize);
-    uint256 currentSelectionCount = uint256(selectionMax);
-
-    for (uint256 i = 0; i < selectionSize; ++i) {
-      numbers[i] = uint8(randomNumber % currentSelectionCount);
-      randomNumber /= currentSelectionCount;
-      currentSelectionCount--;
-    }
-
-    bool[] memory selected = new bool[](selectionMax);
-
-    for (uint256 i = 0; i < selectionSize; ++i) {
-      uint8 currentNumber = numbers[i];
-      // check current selection for numbers smaller than current and increase if needed
-      for (uint256 j = 0; j <= currentNumber; ++j) {
-        if (selected[j]) {
-          currentNumber++;
-        }
-      }
-      selected[currentNumber] = true;
-      ticket |= ((uint120(1) << currentNumber));
-    }
-  }
 }
